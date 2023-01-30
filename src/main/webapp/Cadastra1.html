@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Login.css">
+    <title>Cadastre-se</title>
+</head>
+<body>
+    <div class="main-login"> 
+        <div class ="left-login"> 
+            <h1> Aproveite para fazer o <br> gerenciamento do seu <br>Hortifruti <br><br> Fazer o seu cadastro </h1>
+            <img src="feria1.svg" class="left-login-image" alt="Feria animação">
+        </div>
+        <div class ="right-login"> 
+            <div class ="card-login">
+                <h1>Cadastra-se</h1>
+                <div class="textfield">
+                    <label for="usuario"> E-mail</label>
+                    <input id="usuario" value="#{usuarioController.novoUsuario.nome} placeholder="E-mail">
+                    <h:message for="usuario" errorClass="invalid" />
+                </div>
+                <div class="textfield">
+                    <label for="senha"> Senha</label>
+                    <input id="senha" value="#{usuarioController.novoUsuario.senha} placeholder="Senha">
+                    <h:message for="senha" errorClass="invalid" />
+                </div>
+                <button class="btn-login"> 
+                    <a href="Cadastra2.html"> Aceite e cadastra-se </a>
+                    
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

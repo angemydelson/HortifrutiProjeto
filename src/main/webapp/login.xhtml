@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="Login.css"/>
+    <title>Login</title>
+</h:head>
+<body>
+<h:form>
+    <div class="main-login">
+        <div class="left-login">
+            <h1> Le Créole Hortifruti<br/> Faça login </h1>
+            <img src="feria.svg" class="left-login-image" alt="Feria animação"/>
+        </div>
+        <div class="right-login">
+            <div class="card-login">
+                <h1>LOGIN</h1>
+                <div class="textfield">
+                    <label for="usuario"> Usuário</label>
+                    <p:inputText id="usuario" name="usuario" placeholder="Usuário" value="#{loginController.usuario.usuario}"/>
+                </div>
+                <div class="textfield">
+                    <label for="senha"> Senha</label>
+                    <p:password id="senha" name="senha" placeholder="Senha" value="#{loginController.usuario.senha}"/>
+                </div>
+                <p:commandButton value="Login" action="#{loginController.login}" ajax="false" class="btn-login"/>
+    
+                <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning" globalOnly="true" />
+
+            </div>
+        </div>
+    </div>
+</h:form>
+</body>
+</html>

@@ -16,6 +16,10 @@ body * {
     align-items: center;
 }
 
+.invalid {
+    color: #FF0000;
+}
+
 .left-login{
     width: 50vw;
     height: 100vh;
@@ -141,3 +145,4 @@ body * {
         width: 90%;
     }
 }
+

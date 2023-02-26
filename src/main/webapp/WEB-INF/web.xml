@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Arquivo de configuração de elementos Web -->
+<web-app version="4.0"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+
+	<!-- Habilita anotações de validação em classes Bean (@Named) -->
+    <context-param>
+        <param-name>javax.faces.validator.ENABLE_VALIDATE_WHOLE_BEAN</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+	<!-- Configura ordem de avaliação de anotações pelo CDI -->
+    <context-param>
+        <param-name>javax.faces.ENABLE_CDI_RESOLVER_CHAIN</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+	<!-- Indica o uso do JSF no projeto (opcional no JSF 2.3) -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <!-- Configura página/arquivos onde o JSF gerenciará a comunicação cliente/servidor (opcional no JSF 2.3) -->
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Indica qual página o usuário será enviado ao acessar o sistema (localhost:8080/projeto) -->
+    <!-- Se não informado o usuário será encaminhado para index.html por padrão -->
+    <welcome-file-list>
+        <welcome-file>login.xhtml</welcome-file>
+    </welcome-file-list>
+    
+    <!-- Configura páginas de Erro para erros HTML ou exceções checked de código (podem ser especificadas diversas página para tipos específicos) -->
+    <error-page>
+    	<error-code>404</error-code>
+    	<location>/error.xhtml</location>
+	</error-page>
+	
+	<error-page>
+	    <exception-type>java.lang.Exception</exception-type>
+	    <location>/error.xhtml</location>
+	</error-page>
+
+</web-app>

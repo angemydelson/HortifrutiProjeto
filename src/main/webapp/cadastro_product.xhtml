@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Define bibliotecas(tags) usadas na página -->
+<!-- Pode se usar elementos HTML padrão misturados com os JSF e Primefaces sem problemas -->
+<!-- As tags ui, h e f são do JSF -->
+<!-- ui são para elementos de organização (templates) e automatização (laços e condicionais) -->
+<!-- h são reimplementações de elementos HTML padrão que fornecem algumas funções/facilidades adicionais -->
+<!-- f são para comunicação/transmição de parâmetros entre páginas e para controle de requisições AJAX -->
+<!-- A tag p são do Primefaces, ela reimplementa as tags h com ainda mais funcionalidades e fornece tags adicionais com recursos avançados de Javascript e CSS embutidos -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/default.xhtml">
+    
+    <!-- Usado para definir uso do Template -->
+    <!-- O template só serve para uma melhor organização do código e para evitar a repetição de código -->
+    <ui:define name="content">
+    
+    	<!-- Define formulário para Dialogs (elementos estilo Pop-up) -->
+    	<!-- Lembre-se que o uso de formulários só não é necessário para elementos que são estáticos (sem ação, animação, conteúdo dinâmico) -->     
+         <h:form id="search-form">
+            <p:inputText id="search-input" value="#{cadastroProductController.termoDePesquisa}" />
+            <p:commandButton id="search-button" value="Buscar" action="#{cadastroProductController.listar}"  />
+        </h:form>
+        <h:form id="dialogs">
+        	<p:growl id="messages"/>
+	        <p:dialog header="Novo Produto" showEffect="fade" modal="true" widgetVar="productDialog" responsive="true">   
+	            <p:outputPanel id="product-conteudo-dialog" class="ui-fluid">
+	                <p:outputPanel rendered="#{not empty cadastroProductController.product}">
+	                    <div class="field">
+	                        <p:outputLabel for="codigo">Código</p:outputLabel>
+	                        <p:inputText id="codigo" value="#{cadastroProductController.product.codigo}" required="true" />
+	                    </div>
+	                    <div class="field">
+	                        <p:outputLabel for="nome">Nome do Produto</p:outputLabel>
+	                        <p:inputText id="nome" value="#{cadastroProductController.product.nome}" required="true"/>
+	                    </div>
+	                    <div class="field">
+	                        <p:outputLabel for="quantityint">Quantidade</p:outputLabel>
+	                        <p:inputText id="quantityint" value="#{cadastroProductController.product.quantityint}" required="true"/>
+	                    </div>
+	                     <div class="field">
+	                        <p:outputLabel for="quantitykl">Quantidade por (kg)</p:outputLabel>
+	                        <p:inputText id="quantitykl" value="#{cadastroProductController.product.quantitykl}" required="true"/>
+	                    </div>
+	                     <div class="field">
+	                        <p:outputLabel for="priceund">Preço Unitário</p:outputLabel>
+	                        <p:inputText id="priceund" value="#{cadastroProductController.product.priceund}" required="true"/>
+	                    </div>
+	                     <div class="field">
+	                        <p:outputLabel for="pricekl">Preço por (kg)</p:outputLabel>
+	                        <p:inputText id="pricekl" value="#{cadastroProductController.product.pricekl}" required="true"/>
+	                    </div>
+	                     <div class="field">
+	                        <p:outputLabel for="cidade">Quantidade Total</p:outputLabel>
+	                        <p:inputText id="cidade" value="#{cadastroProductController.product.quantidadeTotalemEstoque}" required="true"/>
+	                    </div>
+	                     <div class="field">
+	                        <p:outputLabel for="precoTotalemEstoque">Preço Total</p:outputLabel>
+	                        <p:inputText id="precoTotalemEstoque" value="#{cadastroProductController.product.precoTotalemEstoque}" required="true"/>
+	                    </div>
+	                    
+	                    
+	                    <!-- <div class="field">
+                        <p:outputLabel for="permissao">Permissão</p:outputLabel>
+                        <p:selectCheckboxMenu id="permissao" value="#{cadastroProductController.permissoesSelecionadas}" label="Selecione uma permissão">
+                            <f:selectItems value="#{cadastroProductController.permissoes}"/>
+                        </p:selectCheckboxMenu>
+                    </div> -->
+	                </p:outputPanel>
+	            </p:outputPanel>
+	
+	            <f:facet name="footer">
+	                <p:commandButton value="Salvar" icon="pi pi-check" actionListener="#{cadastroProductController.salvar}"
+	                    update="product-conteudo-dialog dialogs:messages" process="product-conteudo-dialog @this" />
+	                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('productDialog').hide()" class="ui-button-secondary" type="button" />
+	            </f:facet>
+	        </p:dialog>
+
+	        <p:confirmDialog widgetVar="removerProductDialog" showEffect="fade" width="300"
+	            message="Desejar remover este produto?" header="Confirm" severity="warn">
+	            <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{cadastroProductController.remover}"
+	                process="@this" oncomplete="PF('removerProductDialog').hide()" />
+	            <p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('removerProductDialog').hide()" />
+	        </p:confirmDialog>
+		
+        </h:form>     
+        
+        <!-- Define formulário principal -->  
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" />
+            
+            <p:toolbar>
+	            <p:toolbarGroup>
+	                <p:commandButton value="Novo" icon="pi pi-plus" actionListener="#{cadastroProductController.novoCadastro}"
+	                    update=":dialogs:product-conteudo-dialog" oncomplete="PF('productDialog').show()"
+	                    styleClass="ui-button-success" style="margin-right: .5rem">
+	                    <p:resetInput target=":dialogs:product-conteudo-dialog" />
+	                </p:commandButton>
+	            </p:toolbarGroup>
+	        </p:toolbar>
+	
+	        <p:dataTable id="dt-products" widgetVar="dtProducts" var="us" value="#{cadastroProductController.listaProducts}">
+	            <f:facet name="header">
+	                <div>
+	                    <span style="font-weight: bold">Produto</span>
+	                </div>
+	            </f:facet>
+	
+	            <p:column headerText="Código" sortBy="#{us.codigo}">
+	                <h:outputText value="#{us.codigo}" />
+	            </p:column>
+	            <p:column headerText="Nome do Produto">
+	                <h:outputText value="#{us.nome}" />
+	            </p:column>
+	            <p:column headerText="Quantidade">
+	                <h:outputText value="#{us.quantityint}" />
+	            </p:column>
+	            <p:column headerText="Quantidade por (kg)">
+	                <h:outputText value="#{us.quantitykl}" />
+	            </p:column>
+	            <p:column headerText="Preço Unitário">
+	                <h:outputText value="#{us.priceund}" />
+	            </p:column>
+	             <p:column headerText="Preço por (kg)">
+	                <h:outputText value="#{us.pricekl}" />
+	            </p:column>
+	             <p:column headerText="Quantidade Total">
+	                <h:outputText value="#{us.quantidadeTotalemEstoque}" />
+	            </p:column>
+	             <p:column headerText="Preço Total">
+	                <h:outputText value="#{us.precoTotalemEstoque}" />
+	            </p:column>
+
+	            <p:column>
+	            	<!-- Cuidado com botões que usam AJAX -->
+	            	<!-- process indica qual elemento do formulário será processado (padrão é todo o formulário), @this é só o próprio elemento -->
+	            	<!-- update informa qual elemento será atualizado (renderizado novamente) ao finalizar ação -->
+	            	<!-- é possível disparar ações para diversos eventos Javascript, deve-se cuidar a ordem da resolução dos mesmos -->
+	            	<!-- como regra geral a prioridade de processamento é a seguinte (eventos on... - oncomplete, onclick, onblur, actionListener, action, oncomplete no final) -->
+	            	<!-- PF é usado para chamada de função Javascript de algum elemento do Primefaces -->
+	                <p:commandButton icon="pi pi-pencil" update=":dialogs:product-conteudo-dialog" 
+	                    oncomplete="PF('productDialog').show()" action="#{cadastroProductController.alterar}"
+	                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+	                    <f:setPropertyActionListener value="#{us}" target="#{cadastroProductController.product}" />
+	                    <p:resetInput target=":dialogs:product-conteudo-dialog" />
+	                </p:commandButton>
+	                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+	                                 process="@this" oncomplete="PF('removerProductDialog').show()">
+	                    <f:setPropertyActionListener value="#{us}" target="#{cadastroProductController.product}" />
+	                </p:commandButton>
+	            </p:column>
+	
+	        </p:dataTable>
+	    </h:form>
+    
+    </ui:define>
+</ui:composition>

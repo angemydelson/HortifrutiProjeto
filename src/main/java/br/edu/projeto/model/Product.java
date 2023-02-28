@@ -1,6 +1,7 @@
 package br.edu.projeto.model;
 
 import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,10 +27,8 @@ public class Product {
     //Gerada automaticamente pelo banco
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //Nome da coluna na tabela, necessário indicar quando atributo não tiver o mesmo nome
-//    @Column(name = "id_product")
-//    @NotNull
-//    @NotEmpty
-    private Integer id = 8;
+    @Column(name = "id_product")
+    private Integer id = 1;
 
     @NotEmpty
     @Pattern(regexp = "[^0-9]*")
@@ -40,25 +39,25 @@ public class Product {
     private Integer codigo;
     
     @NotNull
-    private Integer quantitykl;
+    private Double quantitykl;
     
    
     @NotNull
-    private Integer quantityint;
+    private Double quantityint;
     
    
     @NotNull
-    private Integer priceund;
+    private Double priceund;
     
     
     @NotNull
-    private Integer pricekl;
+    private Double pricekl;
     
     @NotNull
-    private Integer quantidadeTotalemEstoque;
+    private Double quantidadeTotalemEstoque;
     
     @NotNull
-    private Integer precoTotalemEstoque;
+    private Double precoTotalemEstoque;
     
     //Indica mapeamento/relacionamento entre tabela
     //fetchType EAGER indica que atributo será carregado automaticamente, enquanto LAZY (padrão) indicaria carregamento sob demanda 
@@ -100,51 +99,51 @@ public class Product {
 		this.codigo = codigo;
 	}
 
-	public Integer getQuantitykl() {
+	public Double getQuantitykl() {
 		return quantitykl;
 	}
 
-	public void setQuantitykl(Integer quantitykl) {
+	public void setQuantitykl(Double quantitykl) {
 		this.quantitykl = quantitykl;
 	}
 
-	public Integer getQuantityint() {
+	public Double getQuantityint() {
 		return quantityint;
 	}
 
-	public void setQuantityint(Integer quantityint) {
+	public void setQuantityint(Double quantityint) {
 		this.quantityint = quantityint;
 	}
 
-	public Integer getPriceund() {
+	public Double getPriceund() {
 		return priceund;
 	}
 
-	public void setPriceund(Integer priceund) {
+	public void setPriceund(Double priceund) {
 		this.priceund = priceund;
 	}
 
-	public Integer getPricekl() {
+	public Double getPricekl() {
 		return pricekl;
 	}
 
-	public void setPricekl(Integer pricekl) {
+	public void setPricekl(Double pricekl) {
 		this.pricekl = pricekl;
 	}
 
-	public Integer getQuantidadeTotalemEstoque() {
+	public Double getQuantidadeTotalemEstoque() {
 		return quantidadeTotalemEstoque;
 	}
 
-	public void setQuantidadeTotalemEstoque(Integer quantidadeTotalemEstoque) {
+	public void setQuantidadeTotalemEstoque(Double quantidadeTotalemEstoque) {
 		this.quantidadeTotalemEstoque = quantidadeTotalemEstoque;
 	}
 
-	public Integer getPrecoTotalemEstoque() {
+	public Double getPrecoTotalemEstoque() {
 		return precoTotalemEstoque;
 	}
 
-	public void setPrecoTotalemEstoque(Integer precoTotalemEstoque) {
+	public void setPrecoTotalemEstoque(Double precoTotalemEstoque) {
 		this.precoTotalemEstoque = precoTotalemEstoque;
 	}
 

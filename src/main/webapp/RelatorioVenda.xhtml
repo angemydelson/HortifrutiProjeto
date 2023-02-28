@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Define bibliotecas(tags) usadas na página -->
+<!-- Pode se usar elementos HTML padrão misturados com os JSF e Primefaces sem problemas -->
+<!-- As tags ui, h e f são do JSF -->
+<!-- ui são para elementos de organização (templates) e automatização (laços e condicionais) -->
+<!-- h são reimplementações de elementos HTML padrão que fornecem algumas funções/facilidades adicionais -->
+<!-- f são para comunicação/transmição de parâmetros entre páginas e para controle de requisições AJAX -->
+<!-- A tag p são do Primefaces, ela reimplementa as tags h com ainda mais funcionalidades e fornece tags adicionais com recursos avançados de Javascript e CSS embutidos -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h1>Relatório de Vendas</h1>
+        
+        <!-- Formulário de busca por período -->
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Período inicial: " />
+                <h:inputText value="#{relatorioVenda.dataInicial}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:inputText>
+                
+                <h:outputLabel value="Período final: " />
+                <h:inputText value="#{relatorioVenda.dataFinal}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:inputText>
+                
+                <h:commandButton value="Buscar"
+                    action="#{relatorioVenda.buscarVendasPorPeriodo}" />
+            </h:panelGrid>
+        </h:form>
+        
+        <!-- Tabela de vendas -->
+        <h:dataTable value="#{relatorioVenda.vendas}" var="venda">
+            <h:column>
+                <f:facet name="header">Produto</f:facet>
+                #{venda.codigoProduto}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantidade</f:facet>
+                #{venda.quantidade}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Preço</f:facet>
+                #{venda.preco}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Forma de Pagamento</f:facet>
+                #{venda.formaPagamento}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Data da Venda</f:facet>
+                #{venda.dataVenda}
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>

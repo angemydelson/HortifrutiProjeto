@@ -36,6 +36,7 @@ public class TipoPermissao {
     @ManyToMany(mappedBy = "permissoes", fetch = FetchType.EAGER)
     private List<Usuario> usuarios = new ArrayList<Usuario>();
 //    private List<Product> products = new ArrayList<Product>();
+//    private List<Venda> vendas = new ArrayList<Venda>();
 
 	public Integer getId() {
 		return id;
@@ -59,6 +60,9 @@ public class TipoPermissao {
 //	public List<Product> getProducts() {
 //		return products;
 //	}
+//	public List<Venda> getVendas() {
+//		return vendas;
+//	}
 
 	//Para persistir elementos de uma classe dominada é necessário adicionar o elementos de ambos os lados
 	//Por isso é comum fazer um método especial para isso
@@ -71,6 +75,9 @@ public class TipoPermissao {
 //		this.products.add(product);
 //		product.getPermissoes().add(this);
 //	}
-	
+//	public void addVenda(Venda venda) {
+//		this.vendas.add(venda);
+//		venda.getPermissoes().add(this);
+//	}
 }
 

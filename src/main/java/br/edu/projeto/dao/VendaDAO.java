@@ -8,11 +8,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import br.edu.projeto.model.Product;
-import br.edu.projeto.model.Usuario;
+import javax.persistence.criteria.Predicate;
+
+import br.edu.projeto.model.Venda;
 
 //Classe DAO responsável pelas regras de negócio envolvendo operações de persistência de dados
 //Indica-se a acriação de um DAO específico para cada Modelo
@@ -20,24 +20,24 @@ import br.edu.projeto.model.Usuario;
 //Anotação EJB que indica que Bean (objeto criado para a classe) será comum para toda a aplicação
 //Isso faz com que recursos computacionais sejam otimizados
 @Stateful
-public class UsuarioDAO implements Serializable{
+public class VendaDAO implements Serializable{
 
 	@Inject
 	//Cria a conexão e controla a transação com o SGBD (usado pelo Hibernate)
     private EntityManager em;
 	
-	public Usuario encontrarId(Integer id) {
-        return em.find(Usuario.class, id);
+	public Venda encontrarId(Integer id) {
+        return em.find(Venda.class, id);
     }
 	
 	//Query usando a API Criteria do Hibernate
 	//Indicada para consultas complexas
-	public Boolean ehUsuarioUnico(String u) {
+	public Boolean ehVendaUnico(String u) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Usuario> criteria = cb.createQuery(Usuario.class);
-        Root<Usuario> usuario = criteria.from(Usuario.class);
-        criteria.select(usuario);
-        criteria.where(cb.like(usuario.get("usuario"), u));
+		CriteriaQuery<Venda> criteria = cb.createQuery(Venda.class);
+        Root<Venda> venda = criteria.from(Venda.class);
+        criteria.select(venda);
+        criteria.where(cb.like(venda.get("venda"), u));
         if (em.createQuery(criteria).getResultList().isEmpty())
         	return true;
         return false;
@@ -45,26 +45,26 @@ public class UsuarioDAO implements Serializable{
 	
 	//Query usando a linguagem HQL do Hibernate
 	//Idnicada para consultas simples
-	public List<Usuario> listarTodos() {
-	    return em.createQuery("SELECT a FROM Usuario a ", Usuario.class).getResultList();      
+	public List<Venda> listarTodos() {
+	    return em.createQuery("SELECT a FROM Venda a ", Venda.class).getResultList();      
 	}
 	
-	public void salvar(Usuario u) {
+	public void salvar(Venda u) {
 		em.persist(u);
 	}
 	
-	public void atualizar(Usuario u) {
+	public void atualizar(Venda u) {
 		em.merge(u);
 	}
 	
-	public void excluir(Usuario u) {
-		em.remove(em.getReference(Usuario.class, u.getId()));
+	public void excluir(Venda u) {
+		em.remove(em.getReference(Venda.class, u.getId()));
 	}
-	public List<Usuario> buscarPorTermo(String termo) {
+	public List<Venda> buscarPorTermo(String termo) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);
-        Root<Usuario> root = cq.from(Usuario.class);
-        Predicate condicao = cb.like(root.get("cpf"), "%" + termo + "%");
+        CriteriaQuery<Venda> cq = cb.createQuery(Venda.class);
+        Root<Venda> root = cq.from(Venda.class);
+        Predicate condicao = cb.like(root.get("nome"), "%" + termo + "%");
         cq.where(condicao);
         cq.select(root);
         return em.createQuery(cq).getResultList();

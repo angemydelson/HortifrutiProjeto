@@ -22,7 +22,7 @@
     	<!-- Lembre-se que o uso de formulários só não é necessário para elementos que são estáticos (sem ação, animação, conteúdo dinâmico) -->     
          <h:form id="search-form">
             <p:inputText id="search-input" value="#{cadastroProductController.termoDePesquisa}" />
-            <p:commandButton id="search-button" value="Buscar" action="#{cadastroProductController.listar}"  />
+            <p:commandButton id="search-button" value="Buscar por nome" action="#{cadastroProductController.listar}"  />
         </h:form>
         <h:form id="dialogs">
         	<p:growl id="messages"/>
@@ -38,7 +38,7 @@
 	                        <p:inputText id="nome" value="#{cadastroProductController.product.nome}" required="true"/>
 	                    </div>
 	                    <div class="field">
-	                        <p:outputLabel for="quantityint">Quantidade</p:outputLabel>
+	                        <p:outputLabel for="quantityint">Categoria</p:outputLabel>
 	                        <p:inputText id="quantityint" value="#{cadastroProductController.product.quantityint}" required="true"/>
 	                    </div>
 	                     <div class="field">
@@ -46,7 +46,7 @@
 	                        <p:inputText id="quantitykl" value="#{cadastroProductController.product.quantitykl}" required="true"/>
 	                    </div>
 	                     <div class="field">
-	                        <p:outputLabel for="priceund">Preço Unitário</p:outputLabel>
+	                        <p:outputLabel for="priceund">Preço Unitário em R$</p:outputLabel>
 	                        <p:inputText id="priceund" value="#{cadastroProductController.product.priceund}" required="true"/>
 	                    </div>
 	                     <div class="field">
@@ -58,7 +58,7 @@
 	                        <p:inputText id="cidade" value="#{cadastroProductController.product.quantidadeTotalemEstoque}" required="true"/>
 	                    </div>
 	                     <div class="field">
-	                        <p:outputLabel for="precoTotalemEstoque">Preço Total</p:outputLabel>
+	                        <p:outputLabel for="precoTotalemEstoque">Preço Total em R$</p:outputLabel>
 	                        <p:inputText id="precoTotalemEstoque" value="#{cadastroProductController.product.precoTotalemEstoque}" required="true"/>
 	                    </div>
 	                    
@@ -78,12 +78,45 @@
 	                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('productDialog').hide()" class="ui-button-secondary" type="button" />
 	            </f:facet>
 	        </p:dialog>
-
+	        
+	        <p:dialog header="Campo de venda" showEffect="fade" modal="true" widgetVar="sellProductDialog" responsive="true">   
+	            <p:outputPanel id="vender-conteudo-dialog" class="ui-fluid">
+	                <p:outputPanel rendered="#{not empty vendaController.venda}">
+	                    <div class="field">
+	                        <p:outputLabel for="codigoProduto">Código do produto</p:outputLabel>
+	                        <p:inputText id="codigoProduto" value="#{vendaController.venda.codigoProduto}" required="true" />
+	                    </div>
+	                    <div class="field">
+	                        <p:outputLabel for="quantidade">Preço do produto</p:outputLabel>
+	                        <p:inputText id="quantidade" value="#{vendaController.venda.quantidade}" required="true"/>
+	                    </div>
+	                     <div class="field">
+	                        <p:outputLabel for="preco">Quantidade a vender</p:outputLabel>
+	                        <p:inputText id="preco" value="#{vendaController.venda.preco}" required="true"/>
+	                    </div>
+	                    <div class="field">
+	                        <p:outputLabel for="formaPagamento">Forma de pagamento</p:outputLabel>
+	                        <p:inputText id="formaPagamento" value="#{vendaController.venda.formaPagamento}" required="true"/>
+	                    </div>
+	                  
+	              
+	                </p:outputPanel>
+	            </p:outputPanel>
+	
+	            <f:facet name="footer">
+	                <p:commandButton value="Confirmar a venda" icon="pi pi-check" actionListener="#{vendaController.salvar}"
+	                    update="vender-conteudo-dialog dialogs:messages" process="vender-conteudo-dialog @this" />
+	                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('sellProductDialog').hide()" class="ui-button-secondary" type="button" />
+	            </f:facet>
+	        </p:dialog>
+	        
+	
 	        <p:confirmDialog widgetVar="removerProductDialog" showEffect="fade" width="300"
 	            message="Desejar remover este produto?" header="Confirm" severity="warn">
-	            <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{cadastroProductController.remover}"
+	            <p:commandButton value="Sim" icon="fa fa-shopping-cart" actionListener="#{cadastroProductController.remover}"
 	                process="@this" oncomplete="PF('removerProductDialog').hide()" />
 	            <p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('removerProductDialog').hide()" />
+					        
 	        </p:confirmDialog>
 		
         </h:form>     
@@ -99,6 +132,13 @@
 	                    styleClass="ui-button-success" style="margin-right: .5rem">
 	                    <p:resetInput target=":dialogs:product-conteudo-dialog" />
 	                </p:commandButton>
+	                 <p:commandButton value="Vender" icon="pi pi-shopping-cart" actionListener="#{vendaController.novoCadastro}"
+	                    update=":dialogs:vender-conteudo-dialog" oncomplete="PF('sellProductDialog').show()"
+	                    styleClass="ui-button-success" style="margin-right: .5rem">
+	                    <p:resetInput target=":dialogs:vender-conteudo-dialog" />
+                	</p:commandButton>
+
+	                
 	            </p:toolbarGroup>
 	        </p:toolbar>
 	
@@ -115,13 +155,13 @@
 	            <p:column headerText="Nome do Produto">
 	                <h:outputText value="#{us.nome}" />
 	            </p:column>
-	            <p:column headerText="Quantidade">
+	            <p:column headerText="Categoria">
 	                <h:outputText value="#{us.quantityint}" />
 	            </p:column>
 	            <p:column headerText="Quantidade por (kg)">
 	                <h:outputText value="#{us.quantitykl}" />
 	            </p:column>
-	            <p:column headerText="Preço Unitário">
+	            <p:column headerText="Preço Unitário em R$">
 	                <h:outputText value="#{us.priceund}" />
 	            </p:column>
 	             <p:column headerText="Preço por (kg)">
@@ -130,7 +170,7 @@
 	             <p:column headerText="Quantidade Total">
 	                <h:outputText value="#{us.quantidadeTotalemEstoque}" />
 	            </p:column>
-	             <p:column headerText="Preço Total">
+	             <p:column headerText="Preço Total em R$">
 	                <h:outputText value="#{us.precoTotalemEstoque}" />
 	            </p:column>
 

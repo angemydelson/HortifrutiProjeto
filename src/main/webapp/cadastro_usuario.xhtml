@@ -20,6 +20,10 @@
     
     	<!-- Define formulário para Dialogs (elementos estilo Pop-up) -->
     	<!-- Lembre-se que o uso de formulários só não é necessário para elementos que são estáticos (sem ação, animação, conteúdo dinâmico) -->     
+        <h:form id="search-form">
+            <p:inputText id="search-input" value="#{cadastroUsuarioController.termoDePesquisa}" />
+            <p:commandButton id="search-button" value="Buscar por CPF" action="#{cadastroUsuarioController.listar}"  />
+        </h:form>
         <h:form id="dialogs">
         	<p:growl id="messages"/>
 	        <p:dialog header="Novo Usuário" showEffect="fade" modal="true" widgetVar="usuarioDialog" responsive="true">   

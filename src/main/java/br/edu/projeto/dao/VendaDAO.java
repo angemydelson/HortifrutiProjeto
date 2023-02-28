@@ -64,7 +64,7 @@ public class VendaDAO implements Serializable{
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Venda> cq = cb.createQuery(Venda.class);
         Root<Venda> root = cq.from(Venda.class);
-        Predicate condicao = cb.like(root.get("nome"), "%" + termo + "%");
+        Predicate condicao = cb.like(root.get("codigoProduto"), "%" + termo + "%");
         cq.where(condicao);
         cq.select(root);
         return em.createQuery(cq).getResultList();

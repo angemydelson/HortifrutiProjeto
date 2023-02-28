@@ -13,49 +13,83 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     template="/WEB-INF/templates/default.xhtml">
+    
+    <!-- Usado para definir uso do Template -->
+    <!-- O template só serve para uma melhor organização do código e para evitar a repetição de código -->
     <ui:define name="content">
-        <h1>Relatório de Vendas</h1>
-        
-        <!-- Formulário de busca por período -->
-        <h:form>
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Período inicial: " />
-                <h:inputText value="#{relatorioVenda.dataInicial}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:inputText>
-                
-                <h:outputLabel value="Período final: " />
-                <h:inputText value="#{relatorioVenda.dataFinal}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:inputText>
-                
-                <h:commandButton value="Buscar"
-                    action="#{relatorioVenda.buscarVendasPorPeriodo}" />
-            </h:panelGrid>
+    
+    	<!-- Define formulário para Dialogs (elementos estilo Pop-up) -->
+    	<!-- Lembre-se que o uso de formulários só não é necessário para elementos que são estáticos (sem ação, animação, conteúdo dinâmico) -->     
+         <h:form id="search-form">
+            <p:inputText id="search-input" value="#{vendaController.termoDePesquisa}" />
+            <p:commandButton id="search-button" value="Buscar por Código " action="#{vendaController.listar}"  />
         </h:form>
+        <h:form id="dialogs">
+        	<p:growl id="messages"/>
+	        
+	       
+	        
+	
+	        <p:confirmDialog widgetVar="removerVendaDialog" showEffect="fade" width="300"
+	            message="Desejar remover esta venda?" header="Confirm" severity="warn">
+	            <p:commandButton value="Sim" icon="fa fa-shopping-cart" actionListener="#{vendaController.remover}"
+	                process="@this" oncomplete="PF('removerVendaDialog').hide()" />
+	            <p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('removerVendaDialog').hide()" />
+					        
+	        </p:confirmDialog>
+		
+        </h:form>     
         
-        <!-- Tabela de vendas -->
-        <h:dataTable value="#{relatorioVenda.vendas}" var="venda">
-            <h:column>
-                <f:facet name="header">Produto</f:facet>
-                #{venda.codigoProduto}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Quantidade</f:facet>
-                #{venda.quantidade}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Preço</f:facet>
-                #{venda.preco}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Forma de Pagamento</f:facet>
-                #{venda.formaPagamento}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Data da Venda</f:facet>
-                #{venda.dataVenda}
-            </h:column>
-        </h:dataTable>
+        <!-- Define formulário principal -->  
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" />
+            
+            
+	        <p:dataTable id="dt-vendas" widgetVar="dtvendas" var="us" value="#{vendaController.listaVendas}">
+	            <f:facet name="header">
+	                <div>
+	                    <span style="font-weight: bold">Produto</span>
+	                </div>
+	            </f:facet>
+	
+	            <p:column headerText="Código" sortBy="#{us.codigoProduto}">
+	                <h:outputText value="#{us.codigoProduto}" />
+	            </p:column>
+	            <p:column headerText="Quantidade">
+	                <h:outputText value="#{us.Quantidade}" />
+	            </p:column>
+	            <p:column headerText="Preço">
+	                <h:outputText value="#{us.preco}" />
+	            </p:column>
+	            <p:column headerText="Forma de Pagamento">
+	                <h:outputText value="#{us.formaPagamento}" />
+	            </p:column>
+	            <p:column headerText="Data de venda">
+	                <h:outputText value="#{us.dataVenda}" />
+	            </p:column>
+	             
+
+	            <p:column>
+	            	<!-- Cuidado com botões que usam AJAX -->
+	            	<!-- process indica qual elemento do formulário será processado (padrão é todo o formulário), @this é só o próprio elemento -->
+	            	<!-- update informa qual elemento será atualizado (renderizado novamente) ao finalizar ação -->
+	            	<!-- é possível disparar ações para diversos eventos Javascript, deve-se cuidar a ordem da resolução dos mesmos -->
+	            	<!-- como regra geral a prioridade de processamento é a seguinte (eventos on... - oncomplete, onclick, onblur, actionListener, action, oncomplete no final) -->
+	            	<!-- PF é usado para chamada de função Javascript de algum elemento do Primefaces -->
+	                <p:commandButton icon="pi pi-pencil" update=":dialogs:venda-conteudo-dialog" 
+	                    oncomplete="PF('vendaDialog').show()" action="#{vendaController.alterar}"
+	                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+	                    <f:setPropertyActionListener value="#{us}" target="#{vendaController.product}" />
+	                    <p:resetInput target=":dialogs:venda-conteudo-dialog" />
+	                </p:commandButton>
+	                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+	                                 process="@this" oncomplete="PF('removerVendaDialog').show()">
+	                    <f:setPropertyActionListener value="#{us}" target="#{vendaController.venda}" />
+	                </p:commandButton>
+	            </p:column>
+	
+	        </p:dataTable>
+	    </h:form>
+    
     </ui:define>
 </ui:composition>

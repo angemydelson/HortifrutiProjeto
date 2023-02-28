@@ -98,7 +98,10 @@
 	                        <p:outputLabel for="formaPagamento">Forma de pagamento</p:outputLabel>
 	                        <p:inputText id="formaPagamento" value="#{vendaController.venda.formaPagamento}" required="true"/>
 	                    </div>
-	                  
+	                    <div class="field">
+						    <p:outputLabel for="dataVenda">Data de venda</p:outputLabel>
+						    <p:calendar id="dataVenda" value="#{vendaController.venda.dataVenda}" required="true" pattern="dd/MM/yyyy"/>
+						</div>
 	              
 	                </p:outputPanel>
 	            </p:outputPanel>

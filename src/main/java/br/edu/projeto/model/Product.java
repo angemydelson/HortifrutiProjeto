@@ -31,7 +31,7 @@ public class Product {
     private Integer id = 1;
 
     @NotEmpty
-    @Pattern(regexp = "[^0-9]*")
+//    @Pattern(regexp = "[^0-9]*")
     @Column(name = "nome")
     private String nome;
     

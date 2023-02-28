@@ -46,7 +46,7 @@ public class Venda {
 //    @NotEmpty
 //    @Past(message = "A data da venda deve ser anterior à data atual")
 //    @Size(max=50)
-    private LocalDate dataVenda ;
+    private String dataVenda ;
 
     //Indica mapeamento/relacionamento entre tabela
     //fetchType EAGER indica que atributo será carregado automaticamente, enquanto LAZY (padrão) indicaria carregamento sob demanda 
@@ -103,11 +103,11 @@ public class Venda {
         this.formaPagamento = formaPagamento;
     }
 
-    public LocalDate getDataVenda() {
+    public String getDataVenda() {
         return dataVenda;
     }
 
-    public void setDataVenda(LocalDate dataVenda) {
+    public void setDataVenda(String dataVenda) {
         this.dataVenda = dataVenda;
     }
     

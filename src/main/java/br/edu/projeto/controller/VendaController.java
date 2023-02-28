@@ -122,6 +122,7 @@ public class VendaController implements Serializable {
 //        }
 	}	
 	
+	
 	public void listar() {
 //	    listaProducts = productDAO.buscarPorTermo(termoDePesquisa);
 	  //Após salvar usuário é necessário recarregar lista que popula tabela com os novos dados

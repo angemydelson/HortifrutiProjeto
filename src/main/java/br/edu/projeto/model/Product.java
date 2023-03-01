@@ -16,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 //Anotação que indica classe modelada pelo OCR - JPA (Hibernate)
@@ -35,27 +38,31 @@ public class Product {
     @Column(name = "nome")
     private String nome;
     
+    @Positive(message = "Deve ser um valor positivo")
     @NotNull
     private Integer codigo;
     
+    @PositiveOrZero(message = "Deve ser um valor positivo")
     @NotNull
     private Double quantitykl;
     
-   
+    @Positive(message = "Deve ser um valor positivo")
     @NotNull
     private Double quantityint;
     
-   
+    @Positive(message = "Deve ser um valor positivo")
     @NotNull
     private Double priceund;
     
-    
+    @PositiveOrZero(message = "Deve ser um valor positivo")
     @NotNull
     private Double pricekl;
     
+    @Positive(message = "Deve ser um valor positivo")
     @NotNull
     private Double quantidadeTotalemEstoque;
     
+    @Positive(message = "Deve ser um valor positivo")
     @NotNull
     private Double precoTotalemEstoque;
     

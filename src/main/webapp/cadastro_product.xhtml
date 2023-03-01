@@ -23,6 +23,7 @@
          <h:form id="search-form">
             <p:inputText id="search-input" value="#{cadastroProductController.termoDePesquisa}" />
             <p:commandButton id="search-button" value="Buscar por nome" action="#{cadastroProductController.listar}"  />
+        	<p:commandButton id="relatorio-button" value="Relatório de Vendas" action="RelatorioVenda?faces-redirect=true"/>
         </h:form>
         <h:form id="dialogs">
         	<p:growl id="messages"/>
@@ -100,7 +101,8 @@
 	                    </div>
 	                    <div class="field">
 						    <p:outputLabel for="dataVenda">Data de venda</p:outputLabel>
-						    <p:calendar id="dataVenda" value="#{vendaController.venda.dataVenda}" required="true" pattern="dd/MM/yyyy"/>
+						    <p:inputText id="dataVenda" value="#{vendaController.venda.dataVenda}" required="true"/>
+						    <!-- <p:calendar id="dataVenda" value="#{vendaController.venda.dataVenda}" required="true" pattern="dd/MM/yyyy"/>	-->
 						</div>
 	              
 	                </p:outputPanel>

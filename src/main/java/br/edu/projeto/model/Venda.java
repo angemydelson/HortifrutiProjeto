@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -35,9 +36,15 @@ public class Venda {
 //    @Pattern(regexp = "[^0-9]*")
    
     private String codigoProduto;
+    
+    @Positive(message = "Deve ser um valor positivo")
     @NotNull
     private Integer quantidade;
+    
+    @Positive(message = "Deve ser um valor positivo")
     @NotNull
+    
+    @Positive(message = "Deve ser um valor positivo")
     private BigDecimal preco;
     @NotEmpty
  
